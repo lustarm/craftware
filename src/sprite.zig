@@ -17,14 +17,14 @@ pub const Sprite = struct {
     draggable: bool,
     dragging: bool,
 
-    pub fn load(path: [:0]const u8, draggable: bool) !Sprite {
+    pub fn load(path: [:0]const u8, x: f32, y: f32, scale: f32, draggable: bool) !Sprite {
         const image = try rl.loadImage(path); // Load the image first
         const texture = try rl.loadTextureFromImage(image); // Create texture from image
 
-        const scale = 0.15; // 15%
+        // const scale = 0.15; // 15%
         const rect = rl.Rectangle{
-            .x = 0,
-            .y = 0,
+            .x = x,
+            .y = y,
             .width = @as(f32, @floatFromInt(texture.width)) * scale,
             .height = @as(f32, @floatFromInt(texture.height)) * scale,
         };
@@ -34,8 +34,8 @@ pub const Sprite = struct {
             .rect = rect,
             .image = image,
             .scale = scale,
-            .offset_x = 0,
-            .offset_y = 0,
+            .offset_x = x,
+            .offset_y = y,
             .origin_x = rect.x,
             .origin_y = rect.y,
             .draggable = draggable,
