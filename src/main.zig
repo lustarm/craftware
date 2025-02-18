@@ -19,19 +19,22 @@ pub fn main() anyerror!void {
         rl.beginDrawing();
         defer rl.endDrawing();
 
+        // input update render
+
         // hex color #222222
         rl.clearBackground(rl.Color.init(34, 34, 34, 255));
 
-        rl.drawTexture(
+        apple_sprite.update();
+
+        rl.drawTextureEx(
             apple_sprite.texture,
-            @intFromFloat(apple_sprite.rect.x),
-            @intFromFloat(apple_sprite.rect.y),
+            rl.Vector2 {
+                .x = apple_sprite.rect.x,
+                .y = apple_sprite.rect.y,
+            },
+            0.0, // rotation
+            0.5, // scale
             rl.Color.white
         );
-
-        // ! change this to game loop and
-        // ! just have sprite update
-        apple_sprite.update();
     }
-
 }
