@@ -25,4 +25,14 @@ pub const Sprite = struct {
     pub fn unload(self: *const Sprite) void {
         rl.unloadTexture(self.texture);
     }
+
+    // Check if point is in the sprites rect
+    pub fn contains(self: *const Sprite, vec2: rl.Vector2) bool {
+        if(vec2.x >= self.rect.x and vec2.x <= self.rect.x + self.rect.width
+        and vec2.y >= self.rect.y and vec2.y <= self.rect.y + self.rect.height) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 };
