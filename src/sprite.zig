@@ -101,6 +101,19 @@ pub const Sprite = struct {
         }
     }
 
+    pub fn render(self: *const Sprite) void {
+        rl.drawTextureEx(
+            self.texture,
+            rl.Vector2 {
+                .x = self.rect.x,
+                .y = self.rect.y,
+            },
+            0.0, // rotation
+            self.scale,
+            rl.Color.white,
+        );
+    }
+
     // Check if point is in the sprites rect
     pub fn contains(self: *const Sprite, vec2: rl.Vector2) bool {
         // uglyahhh

@@ -25,16 +25,6 @@ pub fn main() anyerror!void {
         rl.clearBackground(rl.Color.init(34, 34, 34, 255));
 
         apple_sprite.update();
-
-        rl.drawTextureEx(
-            apple_sprite.texture,
-            rl.Vector2 {
-                .x = apple_sprite.rect.x,
-                .y = apple_sprite.rect.y,
-            },
-            0.0, // rotation
-            apple_sprite.scale,
-            rl.Color.white,
-        );
+        apple_sprite.render();
     }
 }
