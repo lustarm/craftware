@@ -21,6 +21,6 @@ pub fn main() anyerror!void {
                                        // hex color #22222
         rl.clearBackground(rl.Color.init(34, 34, 34, 255));
 
-        // rl.drawTexture(apple_sprite.texture, @intFromFloat(apple_sprite.rect.x), @intFromFloat(apple_sprite.rect.y), rl.Color.white);
+        rl.drawTexture(apple_sprite.texture, @intFromFloat(apple_sprite.rect.x), @intFromFloat(apple_sprite.rect.y), rl.Color.white);
     }
 }
