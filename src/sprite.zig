@@ -5,9 +5,15 @@ pub const Sprite = struct {
     texture: rl.Texture2D,
     rect: rl.Rectangle,
     image: rl.Image, // Add this to store the image data
+
     scale: f32,
+
     offset_x: f32,
     offset_y: f32,
+
+    origin_x: f32,
+    origin_y: f32,
+
     draggable: bool,
     dragging: bool,
 
@@ -15,7 +21,7 @@ pub const Sprite = struct {
         const image = try rl.loadImage(path); // Load the image first
         const texture = try rl.loadTextureFromImage(image); // Create texture from image
 
-        const scale = 0.5;
+        const scale = 0.15; // 15%
         const rect = rl.Rectangle{
             .x = 0,
             .y = 0,
@@ -30,6 +36,8 @@ pub const Sprite = struct {
             .scale = scale,
             .offset_x = 0,
             .offset_y = 0,
+            .origin_x = rect.x,
+            .origin_y = rect.y,
             .draggable = true,
             .dragging = false,
         };
@@ -57,12 +65,7 @@ pub const Sprite = struct {
         return .{ .x = img_x, .y = img_y };
     }
 
-    // ! will maybe return error later?
     pub fn update(self: *Sprite) void {
-        self.drag();
-    }
-
-    pub fn drag(self: *Sprite) void {
         if (!self.draggable) {
             std.debug.print("ERROR: Trying to drag undraggable item\n", .{});
             return;
@@ -90,8 +93,11 @@ pub const Sprite = struct {
             self.rect.y = mouse_pos.y + self.offset_y;
         }
 
+        // check later if released and in valid spot
         if (rl.isMouseButtonReleased(rl.MouseButton.left)) {
             self.dragging = false;
+            self.rect.x = self.origin_x;
+            self.rect.y = self.origin_y;
         }
     }
 

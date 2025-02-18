@@ -6,7 +6,7 @@ const rl = @import("raylib");
 const sprite = @import("sprite.zig");
 
 pub fn main() anyerror!void {
-    const screenWidth = 450;
+    const screenWidth = 600;
     const screenHeight = 450;
 
     rl.initWindow(screenWidth, screenHeight, "Craftware");
@@ -33,8 +33,8 @@ pub fn main() anyerror!void {
                 .y = apple_sprite.rect.y,
             },
             0.0, // rotation
-            0.5, // scale
-            rl.Color.white
+            apple_sprite.scale,
+            rl.Color.white,
         );
     }
 }
