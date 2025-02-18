@@ -17,7 +17,7 @@ pub const Sprite = struct {
     draggable: bool,
     dragging: bool,
 
-    pub fn load(path: [:0]const u8) !Sprite {
+    pub fn load(path: [:0]const u8, draggable: bool) !Sprite {
         const image = try rl.loadImage(path); // Load the image first
         const texture = try rl.loadTextureFromImage(image); // Create texture from image
 
@@ -38,7 +38,7 @@ pub const Sprite = struct {
             .offset_y = 0,
             .origin_x = rect.x,
             .origin_y = rect.y,
-            .draggable = true,
+            .draggable = draggable,
             .dragging = false,
         };
     }
