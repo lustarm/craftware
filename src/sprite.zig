@@ -28,11 +28,12 @@ pub const Sprite = struct {
 
     // Check if point is in the sprites rect
     pub fn contains(self: *const Sprite, vec2: rl.Vector2) bool {
+        // uglyahhh
         if(vec2.x >= self.rect.x and vec2.x <= self.rect.x + self.rect.width
         and vec2.y >= self.rect.y and vec2.y <= self.rect.y + self.rect.height) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 };
