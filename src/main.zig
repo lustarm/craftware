@@ -30,13 +30,9 @@ pub fn main() anyerror!void {
         rl.clearBackground(rl.Color.init(34, 34, 34, 255));
 
         // ! input and update does nothing rn
-        crafting_table.input();
-        crafting_table.update();
         crafting_table.render();
 
-        apple_item.input();
-        // ! does nothing as of now
-        apple_item.update();
+        apple_item.input(&crafting_table);
         apple_item.render();
     }
 }

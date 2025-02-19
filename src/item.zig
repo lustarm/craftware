@@ -1,6 +1,7 @@
 const rl = @import("raylib");
 
 const sprite = @import("sprite.zig");
+const table = @import("table.zig");
 
 pub const Item = struct {
     sprite: sprite.Sprite,
@@ -35,7 +36,7 @@ pub const Item = struct {
 
     // -- LOOP
     // input, update, render
-    pub fn input(self: *Item) void {
+    pub fn input(self: *Item, _: *table.Table) void {
         const mouse_pos = rl.getMousePosition();
 
         if (rl.isMouseButtonPressed(rl.MouseButton.left)) {
