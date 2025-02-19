@@ -1,3 +1,3 @@
 ## TODO
-- [ ] Move drag to item struct
+- [x] Move drag to item struct
 - [ ] Make board struct
