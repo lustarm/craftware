@@ -18,7 +18,7 @@ pub fn main() anyerror!void {
     var crafting_table_sprite =
         try sprite.Sprite.load("assets/crafting_table.png",
                 300, 0, 1.5);
-    crafting_table_sprite.rect.y = screenHeight / 2 + crafting_table_sprite.rect.y * 2;
+    crafting_table_sprite.rect.y = (screenHeight - (crafting_table_sprite.rect.width / 2)) / 2;
     defer crafting_table_sprite.unload();
 
     while (!rl.windowShouldClose()) {
@@ -31,6 +31,8 @@ pub fn main() anyerror!void {
         crafting_table_sprite.render();
 
         apple_sprite.input();
+        // ! does nothing as of now
+        apple_sprite.update();
         apple_sprite.render();
     }
 }

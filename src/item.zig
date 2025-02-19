@@ -65,7 +65,7 @@ pub const Item = struct {
         }
     }
 
-    // pub fn update() void {}
+    pub fn update(_: *Item) void {}
 
     pub fn render(self: *Item) void {
         self.sprite.render();
