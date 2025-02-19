@@ -4,24 +4,14 @@ const rl = @import("raylib");
 pub const Sprite = struct {
     texture: rl.Texture2D,
     rect: rl.Rectangle,
-    image: rl.Image, // Add this to store the image data
+    image: rl.Image,
 
     scale: f32,
 
-    offset_x: f32,
-    offset_y: f32,
-
-    origin_x: f32,
-    origin_y: f32,
-
-    draggable: bool,
-    dragging: bool,
-
-    pub fn load(path: [:0]const u8, x: f32, y: f32, scale: f32, draggable: bool) !Sprite {
+    pub fn load(path: [:0]const u8, x: f32, y: f32, scale: f32) !Sprite {
         const image = try rl.loadImage(path); // Load the image first
         const texture = try rl.loadTextureFromImage(image); // Create texture from image
 
-        // const scale = 0.15; // 15%
         const rect = rl.Rectangle{
             .x = x,
             .y = y,
@@ -34,71 +24,12 @@ pub const Sprite = struct {
             .rect = rect,
             .image = image,
             .scale = scale,
-            .offset_x = x,
-            .offset_y = y,
-            .origin_x = rect.x,
-            .origin_y = rect.y,
-            .draggable = draggable,
-            .dragging = false,
         };
     }
 
     pub fn unload(self: *const Sprite) void {
         rl.unloadTexture(self.texture);
         rl.unloadImage(self.image);
-    }
-
-    pub fn isPixelTransparent(self: *const Sprite, x: i32, y: i32) bool {
-        if (x < 0 or y < 0 or x >= self.image.width or y >= self.image.height) {
-            return true;
-        }
-
-        // Get the color at the specified pixel
-        const color = rl.getImageColor(self.image, x, y);
-        return color.a < 128; // Consider pixels with alpha < 128 as transparent
-    }
-
-    pub fn getImageCoordinates(self: *const Sprite, screen_x: f32, screen_y: f32) struct { x: i32, y: i32 } {
-        // Convert screen coordinates to image coordinates
-        const img_x = @as(i32, @intFromFloat((screen_x - self.rect.x) / self.scale));
-        const img_y = @as(i32, @intFromFloat((screen_y - self.rect.y) / self.scale));
-        return .{ .x = img_x, .y = img_y };
-    }
-
-    pub fn update(self: *Sprite) void {
-        if (!self.draggable) {
-            std.debug.print("ERROR: Trying to drag undraggable item\n", .{});
-            return;
-        }
-
-        const mouse_pos = rl.getMousePosition();
-
-        if (rl.isMouseButtonPressed(rl.MouseButton.left)) {
-            if (self.contains(mouse_pos)) {
-                // Convert mouse position to image coordinates
-                const img_coords = self.getImageCoordinates(mouse_pos.x, mouse_pos.y);
-
-                // Only start dragging if clicking on a non-transparent pixel
-                if (!self.isPixelTransparent(img_coords.x, img_coords.y)) {
-                    self.dragging = true;
-                    self.offset_x = self.rect.x - mouse_pos.x;
-                    self.offset_y = self.rect.y - mouse_pos.y;
-                }
-            }
-        }
-
-        // Rest of the drag function remains the same
-        if (self.dragging and rl.isMouseButtonDown(rl.MouseButton.left)) {
-            self.rect.x = mouse_pos.x + self.offset_x;
-            self.rect.y = mouse_pos.y + self.offset_y;
-        }
-
-        // check later if released and in valid spot
-        if (rl.isMouseButtonReleased(rl.MouseButton.left)) {
-            self.dragging = false;
-            self.rect.x = self.origin_x;
-            self.rect.y = self.origin_y;
-        }
     }
 
     pub fn render(self: *const Sprite) void {

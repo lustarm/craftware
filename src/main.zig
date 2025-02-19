@@ -2,20 +2,23 @@ const std = @import("std");
 const rl = @import("raylib");
 
 const sprite = @import("sprite.zig");
+const item = @import("item.zig");
 
 pub fn main() anyerror!void {
-    const screenWidth = 700;
-    const screenHeight = 450;
+    const screenWidth: i32 = 700;
+    const screenHeight: i32 = 450;
 
     rl.initWindow(screenWidth, screenHeight, "Craftware");
     defer rl.closeWindow(); // Close window and OpenGL context
 
     var apple_sprite
-        = try sprite.Sprite.load("assets/apple.png", 0, 0, 0.15, true);
-    defer apple_sprite.unload();
+        = try item.Item.init("assets/apple.png", 0, 0, 0.15, true);
+    defer apple_sprite.deinit();
 
     var crafting_table_sprite =
-        try sprite.Sprite.load("assets/crafting_table.png", 350, screenHeight/2, 1, false);
+        try sprite.Sprite.load("assets/crafting_table.png",
+                300, 0, 1.5);
+    crafting_table_sprite.rect.y = screenHeight / 2 + crafting_table_sprite.rect.y * 2;
     defer crafting_table_sprite.unload();
 
     while (!rl.windowShouldClose()) {
@@ -27,7 +30,7 @@ pub fn main() anyerror!void {
 
         crafting_table_sprite.render();
 
-        apple_sprite.update();
+        apple_sprite.input();
         apple_sprite.render();
     }
 }
